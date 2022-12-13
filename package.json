@@ -1,0 +1,21 @@
+{
+  "name": "formvalidator",
+  "version": "1.0.0",
+  "description": "Project from 20 Web Projects with Vanilla JavaScript by Brad Traversy on O'Reilly",
+  "main": "script.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TomGilbert84/FormValidator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TomGilbert84/FormValidator/issues"
+  },
+  "homepage": "https://github.com/TomGilbert84/FormValidator#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.28.1"
+  }
+}
