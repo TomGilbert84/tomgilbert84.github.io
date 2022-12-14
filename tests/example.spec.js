@@ -5,10 +5,18 @@ test.beforeEach(async ({ page }) => {
  
 });
 
-test('form has correct title', async ({ page }) => {
+test('webpage has correct title', async ({ page }) => {
 
-  // Expect a title "to contain" a substring.
+  // Expect title to contain Form Validator.
   await expect(page).toHaveTitle(/Form Validator/);
+
+});
+
+test('form has correct header', async ({ page }) => {
+  // Get the form header  
+  const formTitle = page.locator('#form > h2')
+  // Expect header to contain 'Register With Us'
+  await expect(formTitle).toHaveText('Register With Us');
 
 });
 
@@ -30,6 +38,24 @@ test('form has correct field names', async ({ page }) => {
   }
 
     await page.screenshot({ path: 'screenshot.png' });
+});
+
+test('form has correct placeholder in field', async ({ page }) => {
+
+  // Create an array of the locators for the form fields
+  const fieldLocators = ['id=username', 'id=email', 'id=password', 'id=password2'];
+
+ // Create an array of the expected label values
+ const expectedValues = ['Enter username', 'Enter email', 'Enter password', 'Enter password again'];
+
+ // Iterate over the locators and assert the placeholder text for each field
+ for (let i = 0; i < fieldLocators.length; i++) {
+  const field = await page.locator(fieldLocators[i]);
+  const placeholder = await field.getAttribute('placeholder');
+  await expect(placeholder).toContain(expectedValues[i]);
+}
+
+   await page.screenshot({ path: 'screenshot.png' });
 });
 
 
