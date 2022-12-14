@@ -19,7 +19,6 @@ jobs:
         run: npx playwright install --with-deps
       - name: Open HTML File
         uses: actions/open-url@v1
-        with:
         url: "C:/Users/tgilbert/OneDrive%20-%20Scott%20Logic%20Ltd/Documents/FormValidator/index.html"
       - name: Run Playwright tests
         run: npx playwright test
