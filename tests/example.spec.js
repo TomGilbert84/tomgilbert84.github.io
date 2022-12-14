@@ -4,14 +4,14 @@ test.beforeEach(async ({ page }) => {
   await page.goto('http://127.0.0.1:5500/index.html?');
 });
 
-test('homepage has title and links to intro page', async ({ page }) => {
+test('form has correct title', async ({ page }) => {
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Form Validator/);
 
 });
 
-test('homepage has correct field names', async ({ page }) => {
+test('form has correct field names', async ({ page }) => {
    // Get the username label
   const username = page.locator('id=userNameLabel')
   const email = page.locator('id=emailLabel')
