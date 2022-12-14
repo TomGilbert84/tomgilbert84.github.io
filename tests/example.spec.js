@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test.beforeEach(async ({ page }) => {
   await page.goto('C:/Users/tgilbert/OneDrive%20-%20Scott%20Logic%20Ltd/Documents/FormValidator/index.html');
+ 
 });
 
 test('form has correct title', async ({ page }) => {
@@ -27,6 +28,8 @@ test('form has correct field names', async ({ page }) => {
   for (let i = 0; i < labels.length; i++) {
     await expect(labels[i]).toHaveText(expectedValues[i]);
   }
+
+    await page.screenshot({ path: 'screenshot.png' });
 });
 
 
