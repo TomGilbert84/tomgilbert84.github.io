@@ -70,32 +70,49 @@ test('the one where the empty field validation is correct', async ({ page }) => 
   }
 });
 
+test('the one where the min field length validation is correct', async ({ page }) => {
+  // Define the expected values and locators
+  const expectedValues = ['Username must be at least 3 characters', 'Password must be at least 6 characters',];
+  const locators = [ '#form > div:nth-child(2) > small', '#form > div:nth-child(4) > small',];
 
-// test('checkLength function works as expected', async () => {
-//   const input = { value: 'test' };
+  await page.getByPlaceholder('Enter username').click();
+  await page.getByPlaceholder('Enter username').fill('12');
+  await page.getByRole('textbox', { name: 'Enter password' }).click();
+  await page.getByRole('textbox', { name: 'Enter password' }).fill('12345');
 
-//   checkLength(input, 3, 10);
+  // Click the submit button
+  await page.getByRole('button', { name: 'Submit' }).click();
 
-//   expect(input.className).toEqual('success');
-// });
+  // Iterate over the locators and assert their text
+  for (let i = 0; i < locators.length; i++) {
+    const element = await page.locator(locators[i]);
+    const text = await element.textContent();
+    expect(text).toBe(expectedValues[i]);
+  }
+});
 
-// test('checkLength function shows error for too short input', async () => {
-//   const input = { value: 'te' };
+test('the one where the max field length validation is correct', async ({ page }) => {
+  // Define the expected values and locators
+  const expectedValues = ['Username must be less than 15 characters', 'Password must be less than 25 characters',];
+  const locators = [ '#form > div:nth-child(2) > small', '#form > div:nth-child(4) > small',];
 
-//   checkLength(input, 3, 10);
+  //test max field lengths
+  await page.getByPlaceholder('Enter username').click();
+  await page.getByPlaceholder('Enter username').fill('1234567891234567');
+  await page.getByRole('textbox', { name: 'Enter password' }).click();
+  await page.getByRole('textbox', { name: 'Enter password' }).fill('12345678912345678912345678');
 
-//   expect(input.className).toEqual('error');
-//   expect(input.nextSibling.textContent).toEqual('must be at least 3 characters');
-// });
+  // Click the submit button
+  await page.getByRole('button', { name: 'Submit' }).click();
 
-// test('checkLength function shows error for too long input', async () => {
-//   const input = { value: 'this_input_is_too_long' };
+// Iterate over the locators and assert their text
+  for (let i = 0; i < locators.length; i++) {
+    const element = await page.locator(locators[i]);
+    const text = await element.textContent();
+    expect(text).toBe(expectedValues[i]);
+  }
+});
 
-//   checkLength(input, 3, 10);
-
-//   expect(input.className).toEqual('error');
-//   expect(input.nextSibling.textContent).toEqual('must be less than 10 characters');
-// });
 
 
   // test('Check password match', async ({ page }) => {
