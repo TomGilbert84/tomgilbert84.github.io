@@ -5,14 +5,14 @@ test.beforeEach(async ({ page }) => {
  
 });
 
-test('webpage has correct title', async ({ page }) => {
+test('the one where the webpage has the correct title', async ({ page }) => {
 
   // Expect title to contain Form Validator.
   await expect(page).toHaveTitle(/Form Validator/);
 
 });
 
-test('form has correct header', async ({ page }) => {
+test('the one where the form has the correct header', async ({ page }) => {
   // Get the form header  
   const formTitle = page.locator('#form > h2')
   // Expect header to contain 'Register With Us'
@@ -20,27 +20,23 @@ test('form has correct header', async ({ page }) => {
 
 });
 
-test('form has correct field names', async ({ page }) => {
-   // Get the username label
-  const username = page.locator('id=userNameLabel')
-  const email = page.locator('id=emailLabel')
-  const password = page.locator('id=passwordLabel')
-  const password2 = page.locator('id=password2Label')
-
-  const labels = [username, email, password, password2];
+test('the one where the form has the correct field names', async ({ page }) => {
+  // Create an array of the locators for the form fields
+  const labelLocators = ['id=userNameLabel', 'id=emailLabel', 'id=passwordLabel', 'id=password2Label'];
 
   // Create an array of the expected label values
   const expectedValues = ['Username', 'Email', 'Password', 'Confirm Password'];
 
   // Iterate over the labels and assert their text
-  for (let i = 0; i < labels.length; i++) {
-    await expect(labels[i]).toHaveText(expectedValues[i]);
+  for (let i = 0; i < labelLocators.length; i++) {
+    const label = await page.locator(labelLocators[i]);
+    await expect(label).toHaveText(expectedValues[i]);
   }
 
-    await page.screenshot({ path: 'screenshot.png' });
+  await page.screenshot({ path: 'screenshot.png' });
 });
 
-test('form has correct placeholder in field', async ({ page }) => {
+test('the one where the form has the correct placeholder in the field', async ({ page }) => {
 
   // Create an array of the locators for the form fields
   const fieldLocators = ['id=username', 'id=email', 'id=password', 'id=password2'];
@@ -58,6 +54,48 @@ test('form has correct placeholder in field', async ({ page }) => {
    await page.screenshot({ path: 'screenshot.png' });
 });
 
+test('the one where the empty field validation is correct', async ({ page }) => {
+  // Define the expected values and locators
+  const expectedValues = [    'Username must be at least 3 characters',    'Email is not valid',    'Password must be at least 6 characters',    'Password2 is required',  ];
+  const locators = [    '#form > div:nth-child(2) > small',    '#form > div:nth-child(3) > small',    '#form > div:nth-child(4) > small',    '#form > div:nth-child(5) > small',  ];
+
+  // Click the submit button
+  await page.getByRole('button', { name: 'Submit' }).click();
+
+  // Iterate over the locators and assert their text
+  for (let i = 0; i < locators.length; i++) {
+    const element = await page.locator(locators[i]);
+    const text = await element.textContent();
+    expect(text).toBe(expectedValues[i]);
+  }
+});
+
+
+// test('checkLength function works as expected', async () => {
+//   const input = { value: 'test' };
+
+//   checkLength(input, 3, 10);
+
+//   expect(input.className).toEqual('success');
+// });
+
+// test('checkLength function shows error for too short input', async () => {
+//   const input = { value: 'te' };
+
+//   checkLength(input, 3, 10);
+
+//   expect(input.className).toEqual('error');
+//   expect(input.nextSibling.textContent).toEqual('must be at least 3 characters');
+// });
+
+// test('checkLength function shows error for too long input', async () => {
+//   const input = { value: 'this_input_is_too_long' };
+
+//   checkLength(input, 3, 10);
+
+//   expect(input.className).toEqual('error');
+//   expect(input.nextSibling.textContent).toEqual('must be less than 10 characters');
+// });
 
 
   // test('Check password match', async ({ page }) => {
