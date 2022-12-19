@@ -113,34 +113,20 @@ test('the one where the max field length validation is correct', async ({ page }
   }
 });
 
+test('the one where the password match validation is correct refactor', async ({ page }) => {
+  const passwordInput = page.getByRole('textbox', { name: 'Enter password' });
+  const confirmPasswordInput = page.getByPlaceholder('Enter password again');
+  const submitButton = page.getByRole('button', { name: 'Submit' });
+  const passwordMatchError = page.locator('#form > div:nth-child(5) > small');
 
+  // Enter different passwords in the password and confirm password fields
+  await passwordInput.click();
+  await passwordInput.fill('password');
+  await confirmPasswordInput.click();
+  await confirmPasswordInput.fill('differentPassword');
+  // Submit the form
+  await submitButton.click();
 
-  // test('Check password match', async ({ page }) => {
-  //   await page.goto('http://127.0.0.1:5500/index.html?');
-  
-  //   await page.fill('#password', 'mypassword'); 
-
-  //   await page.fill('#password2', 'differentPassword');
-
-  //   await page.getByRole('button', { name: 'Submit' }).click();
-    
-  //   const passwordMatchError = page.getByText('Passwords do not match');
-
-  //   await expect(page).toHaveProperty(passwordMatchError);
-
-  //   await page.screenshot({ path: 'screenshot.png' });
-  // });
-
-
-  // // create a locator
-  // const getStarted = page.getByRole('link', { name: 'Get started' });
-
-  // // Expect an attribute "to be strictly equal" to the value.
-  // await expect(getStarted).toHaveAttribute('href', '/docs/intro');
-
-  // // Click the get started link.
-  // await getStarted.click();
-
-  // // Expects the URL to contain intro.
-  // await expect(page).toHaveURL(/.*intro/);
-
+  // Expect the password match error to contain 'Passwords do not match'
+  await expect(passwordMatchError).toHaveText('Passwords do not match');
+});
