@@ -130,3 +130,21 @@ test('the one where the password match validation is correct refactor', async ({
   // Expect the password match error to contain 'Passwords do not match'
   await expect(passwordMatchError).toHaveText('Passwords do not match');
 });
+
+test('the one where no validation errors occur', async ({ page }) => {
+
+  await page.getByPlaceholder('Enter username').click();
+  await page.getByPlaceholder('Enter username').fill('TestUser');
+  await page.getByPlaceholder('Enter email').click();
+  await page.getByPlaceholder('Enter email').fill('test@test.com');
+  await page.getByRole('textbox', { name: 'Enter password' }).fill('Password123');
+  await page.getByPlaceholder('Enter password again').fill('Password123');
+  await page.getByRole('button', { name: 'Submit' }).click();
+  await page.screenshot({ path: 'screenshot.png' });
+
+  const locators = [    '#form > div:nth-child(2) > small',    '#form > div:nth-child(3) > small',    '#form > div:nth-child(4) > small',    '#form > div:nth-child(5) > small',  '#form > div:nth-child(6) > small'];
+  for (let i = 0; i < locators.length; i++) {
+    const element = page.locator(locators[i]);
+    await expect(element).toBeHidden();
+  }
+});
