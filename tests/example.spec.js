@@ -113,7 +113,7 @@ test('the one where the max field length validation is correct', async ({ page }
   }
 });
 
-test('the one where the password match validation is correct refactor', async ({ page }) => {
+test('the one where the password match validation is correct', async ({ page }) => {
   const passwordInput = page.getByRole('textbox', { name: 'Enter password' });
   const confirmPasswordInput = page.getByPlaceholder('Enter password again');
   const submitButton = page.getByRole('button', { name: 'Submit' });
