@@ -70,14 +70,26 @@ test('the one where the empty field validation is correct', async ({ page }) => 
   }
 });
 
+test('the one where the email validation is correct', async ({ page }) => {
+  // Define the locators
+  await page.locator('#email').fill('test');
+  const errorMessage = page.locator('#form > div:nth-child(3) > small');
+  
+  // Click the submit button
+  await page.getByRole('button', { name: 'Submit' }).click();
+
+  // Iterate over the locators and assert their text
+  await expect(errorMessage).toHaveText('Email is not valid');
+});
+
 test('the one where the min field length validation is correct', async ({ page }) => {
   // Define the expected values and locators
   const expectedValues = ['Username must be at least 3 characters', 'Password must be at least 6 characters',];
   const locators = [ '#form > div:nth-child(2) > small', '#form > div:nth-child(4) > small',];
 
-  await page.getByPlaceholder('Enter username').click();
+  // await page.getByPlaceholder('Enter username').click();
   await page.getByPlaceholder('Enter username').fill('12');
-  await page.getByRole('textbox', { name: 'Enter password' }).click();
+  // await page.getByRole('textbox', { name: 'Enter password' }).click();
   await page.getByRole('textbox', { name: 'Enter password' }).fill('12345');
 
   // Click the submit button
@@ -97,9 +109,9 @@ test('the one where the max field length validation is correct', async ({ page }
   const locators = [ '#form > div:nth-child(2) > small', '#form > div:nth-child(4) > small',];
 
   //test max field lengths
-  await page.getByPlaceholder('Enter username').click();
+  // await page.getByPlaceholder('Enter username').click();
   await page.getByPlaceholder('Enter username').fill('1234567891234567');
-  await page.getByRole('textbox', { name: 'Enter password' }).click();
+  // await page.getByRole('textbox', { name: 'Enter password' }).click();
   await page.getByRole('textbox', { name: 'Enter password' }).fill('12345678912345678912345678');
 
   // Click the submit button
@@ -133,9 +145,9 @@ test('the one where the password match validation is correct', async ({ page }) 
 
 test('the one where no validation errors occur', async ({ page }) => {
 
-  await page.getByPlaceholder('Enter username').click();
+  // await page.getByPlaceholder('Enter username').click();
   await page.getByPlaceholder('Enter username').fill('TestUser');
-  await page.getByPlaceholder('Enter email').click();
+  // await page.getByPlaceholder('Enter email').click();
   await page.getByPlaceholder('Enter email').fill('test@test.com');
   await page.getByRole('textbox', { name: 'Enter password' }).fill('Password123');
   await page.getByPlaceholder('Enter password again').fill('Password123');
